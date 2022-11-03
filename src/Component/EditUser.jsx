@@ -51,8 +51,6 @@ function reducer(state, action) {
   }
 }
 
-
-
 const initialState = {
   studentName: "",
   classNo: "",
@@ -86,18 +84,32 @@ export default function EditUser() {
     navigate("/");
   };
 
-  useEffect(() => {
-    if (tasks) {
-      const currentTask = tasks.find((task) => task.id === +id);
-      if (currentTask) {
-        state.studentName = currentTask.studentName;
-        state.classNo = currentTask.classNo;
-        state.result = currentTask.result;
-        state.score = currentTask.score;
-        state.grade = currentTask.grade;
-      }
-    }
-  }, [tasks, id]);
+
+  // useEffect(() => {
+  //   if (tasks) {
+  //     const currentTask = tasks.find((task) => task.id === +id);
+  //     if (currentTask) {
+  //       state.studentName = currentTask.studentName;
+  //       state.classNo = currentTask.classNo;
+  //       state.result = currentTask.result;
+  //       state.score = currentTask.score;
+  //       state.grade = currentTask.grade;
+  //     }
+  //   }
+  // }, [tasks, id]);
+
+  // useEffect(() => {
+  //   if (tasks) {
+  //     const currentTask = tasks.find((task) => task.id === +id);
+  //     if (currentTask) {
+  //       state.studentName = currentTask.studentName;
+  //       state.classNo = currentTask.classNo;
+  //       state.score = currentTask.score;
+  //       state.tags = currentTask.tags;
+  //       state.grade = currentTask.grade;
+  //     }
+  //   }
+  // }, [tasks, id]);
 
   useEffect(() => {
     if (tasks.length === 0) {
@@ -105,13 +117,10 @@ export default function EditUser() {
     }
   }, []);
 
-
   const handleUpdate = () => {
     dispatch(updateTasks(id, state)).then(() => dispatch(getTasks()));
     navigate("/");
   };
-
-
 
   const xyz = (x) => {
     if (+x >= 30) {
@@ -122,7 +131,6 @@ export default function EditUser() {
       return false;
     }
   };
-
 
   return (
     <>

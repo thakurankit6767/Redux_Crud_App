@@ -47,6 +47,18 @@ export const appReducer = (state = initialState, { type, payload, action }) => {
         loading: false,
       };
 
+
+      // case "UPDATE_TASKS_SUCCESS":
+      // const updatedUserDetail = action.payload;
+      // const updatedUser = state.tasks.map((user) => {
+      //   if (user.id === updatedUserDetail.id) {
+      //     return updatedUserDetail;
+      //   } else {
+      //     return user;
+      //   }
+      // });
+      // return { tasks: updatedUser };
+
     case UPDATE_TASKS_REQUEST:
       return {
         ...state,

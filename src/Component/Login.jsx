@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,39 +8,68 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useDispatch, useSelector } from "react-redux";
 import Link from "@mui/material/Link";
 import { useNavigate } from "react-router-dom";
-import { Navigate } from "react-router-dom";
-import {
-  loginFailure,
-  loginLoading,
-  loginSuccess,
-} from "../redux/signin/action";
+import { Link as RouterLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { checkUser } from "../redux/authReducer/authAction";
+import { Alert } from "@mui/material";
 
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
+  const Loading = useSelector((state) => state.authReducer.isLoading);
+  const users = useSelector((state) => state.authReducer.userData);
   const navigate = useNavigate();
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+  const dispatch = useDispatch();
   const theme = createTheme();
 
-  const { isAuthenticated } = useSelector((state) => state.loginReducer);
-  console.log(isAuthenticated);
-  const handleLogin = () => {
-    const payload = {
-      email,
-      password,
-    };
-    dispatch(loginLoading());
-    dispatch(loginSuccess({ email: email }));
+  useEffect(() => {
+    if (!users.length) {
+      dispatch(checkUser());
+    }
+  }, []);
 
-    console.log(payload);
+  const [valid, setValid] = useState({
+    password: false,
+    username: false,
+  });
+
+  const handleSubmit = () => {
+    if (!user) setValid({ username: true });
+    if (!pass) setValid({ password: true });
+
+    // checking if the user is present or not
+    let currentUser = users.find((item) => {
+      if (item.username === user && item.password === pass) {
+        return user;
+      }
+    });
+
+    if (!currentUser) {
+      return alert({
+        title: "Invalid Credentials.",
+        description: "Try again.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+    navigate("/", { replace: true });
+    localStorage.setItem("token", currentUser.token);
+    const userdata = {
+      username: currentUser.username,
+      email: currentUser.email,
+      name: currentUser.name,
+    };
+    localStorage.setItem("user", JSON.stringify(userdata));
   };
 
-  if (isAuthenticated) {
-    return <Navigate to="/" />;
-  }
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -62,16 +90,23 @@ export default function Login() {
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
-          <Box component="form" onSubmit={handleLogin} sx={{ mt: 1 }}>
+          <Box component="form" sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
+              id="username"
+              isRequired
+              isInvalid={valid.username}
+              label="UserName"
               name="email"
               autoComplete="email"
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              value={user}
+              onChange={(e) => {
+                setUser(e.target.value);
+                setValid({ username: false });
+              }}
             />
             <TextField
               margin="normal"
@@ -79,10 +114,17 @@ export default function Login() {
               fullWidth
               name="password"
               label="Password"
-              type="password"
               id="password"
+              isRequired
+              isInvalid={valid.password}
               autoComplete="current-password"
-              onChange={(e) => setPassword(e.target.value)}
+              type="password"
+              value={pass}
+              onKeyDown={handleKeyPress}
+              onChange={(e) => {
+                setPass(e.target.value);
+                setValid({ password: false });
+              }}
             />
 
             <Button
@@ -90,8 +132,9 @@ export default function Login() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
+              isLoading={Loading}
+              onClick={handleSubmit}
             >
-              <Link to="/cartPage"></Link>
               Sign In
             </Button>
 
@@ -99,7 +142,7 @@ export default function Login() {
               className="ButtonDiv"
               variant="contained"
               onClick={() => {
-                navigate("/SignUp");
+                navigate("/Signup");
               }}
               style={{ marginTop: "40px" }}
             >

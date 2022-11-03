@@ -17,15 +17,17 @@ import { useSearchParams } from "react-router-dom";
 import { Link, useNavigate } from "react-router-dom";
 import { Container } from "@mui/system";
 import SchoolSpace from "./SchoolSpace";
+import { logout } from "../redux/authReducer/authAction";
 
 import {
   getTasks,
   updateTasks,
   addNewTask,
   deleteTask,
-  
 } from "../redux/appReducer/appAction";
 import { useDispatch, useSelector } from "react-redux";
+
+const currentUser = JSON.parse(localStorage.getItem("user"));
 
 const StyledTable = styled(Table)`
   width: 100%;
@@ -98,6 +100,11 @@ const AllUsers = () => {
     }
   };
 
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate("/");
+  };
+
   return (
     <>
       <Box>
@@ -128,26 +135,43 @@ const AllUsers = () => {
                   Students
                 </div>
               </div>
-
-              <Button
-                style={{
-                  color: "white",
-                  width: "110px",
-                  height: "42px",
-                  backgroundColor: "#2CA4D8",
-                  boxShadow: "0px 2px 20px rgba(56, 181, 235, 0.2)",
-                  borderRadius: "10px",
-                  textAlign: "center",
-                  marginBottom: "5px",
-                }}
-              >
-                <Link
-                  to="/add"
-                  style={{ color: "white", textDecoration: "none" }}
+              <div>
+                <Button
+                  style={{
+                    color: "white",
+                    width: "110px",
+                    height: "42px",
+                    backgroundColor: "#2CA4D8",
+                    boxShadow: "0px 2px 20px rgba(56, 181, 235, 0.2)",
+                    borderRadius: "10px",
+                    textAlign: "center",
+                    marginBottom: "5px",
+                    marginRight: "15px",
+                  }}
                 >
-                  + Add
-                </Link>
-              </Button>
+                  <Link
+                    to="/add"
+                    style={{ color: "white", textDecoration: "none" }}
+                  >
+                    + Add User
+                  </Link>
+                </Button>
+                <Button
+                  onClick={handleLogout}
+                  style={{
+                    color: "white",
+                    width: "80px",
+                    height: "36px",
+                    backgroundColor: "orange",
+                    boxShadow: "0px 2px 20px rgba(56, 181, 235, 0.2)",
+                    borderRadius: "10px",
+                    textAlign: "center",
+                    marginBottom: "5px",
+                  }}
+                >
+                  LogOut
+                </Button>
+              </div>
             </Boxone>
             <StyledTable>
               <TableHead

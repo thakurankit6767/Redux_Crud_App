@@ -7,14 +7,12 @@ import NotFound from "./NotFound";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import RemoveUser from "./RemoveUser";
-
+import AuthRequire from "../hoc/AuthRequire";
 import Login from "./Login";
 import Signup from "./Signup";
-const PrivateRoute = ({ isAuthenticated, children }) => {
-  return isAuthenticated ? children : <Navigate to="/login" />;
-};
+
 function AllRoutes() {
-  const { isAuthenticated } = useSelector((state) => state.loginReducer);
+  
   return (
     <BrowserRouter>
       {/* <NavBar /> */}
@@ -25,9 +23,9 @@ function AllRoutes() {
         <Route
           path="/add"
           element={
-            <PrivateRoute isAuthenticated={isAuthenticated}>
+            <AuthRequire>
               <AddUser />
-            </PrivateRoute>
+            </AuthRequire>
           }
         />
         <Route path="/edit/:id" element={<EditUser />} />

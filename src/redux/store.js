@@ -6,10 +6,11 @@ import {
   } from "redux";
   import thunk from "redux-thunk";
 import { appReducer } from "./appReducer/appReducer";
-import { loginReducer } from "./signin/reducer"; 
+import { authReducer } from "./authReducer/authReducer";
+
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
   
-  const rootReducers = combineReducers({ appReducer,loginReducer });
+  const rootReducers = combineReducers({ appReducer,authReducer  });
   
   export const store = legacy_createStore(
     rootReducers,
