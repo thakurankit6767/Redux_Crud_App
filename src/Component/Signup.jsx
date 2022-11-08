@@ -105,32 +105,14 @@ export default function Signup() {
         .map((user) => user.email)
         .find((item) => item === state.email);
       if (currentUser) {
-        return window.alert({
-          title: "Registration failed",
-          description: "User already exists. PLease Login",
-          status: "error",
-          duration: 2000,
-          isClosable: true,
-        });
+        return window.alert("Registration failed");
       }
 
-      
       dispatch(register(state)).then((r) => {
         if (r.type === "SIGNUP_ERROR") {
-          return window.alert({
-            title: "Something Went Wrong",
-            status: "error",
-            duration: 2000,
-            isClosable: true,
-          });
+          return window.alert("Something Went Wrong");
         }
-        window.alert({
-          title: "Account created.",
-          description: "We've created your account for you.",
-          status: "success",
-          duration: 2000,
-          isClosable: true,
-        });
+        window.alert("Account created.");
         navigate("/login", { replace: true });
       });
     }

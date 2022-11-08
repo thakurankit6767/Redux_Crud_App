@@ -14,6 +14,7 @@ import { Link as RouterLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { checkUser } from "../redux/authReducer/authAction";
 import { Alert } from "@mui/material";
+import Snackbar from "@mui/material";
 
 export default function Login() {
   const Loading = useSelector((state) => state.authReducer.isLoading);
@@ -23,6 +24,7 @@ export default function Login() {
   const [pass, setPass] = useState("");
   const dispatch = useDispatch();
   const theme = createTheme();
+  
 
   useEffect(() => {
     if (!users.length) {
@@ -47,13 +49,10 @@ export default function Login() {
     });
 
     if (!currentUser) {
-      return alert({
-        title: "Invalid Credentials.",
-        description: "Try again.",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
+      return alert(
+        "Invalid Credentials."
+       
+      );
     }
     navigate("/", { replace: true });
     localStorage.setItem("token", currentUser.token);
@@ -96,7 +95,7 @@ export default function Login() {
               required
               fullWidth
               id="username"
-              isRequired
+             
               isInvalid={valid.username}
               label="UserName"
               name="email"
@@ -115,7 +114,7 @@ export default function Login() {
               name="password"
               label="Password"
               id="password"
-              isRequired
+             
               isInvalid={valid.password}
               autoComplete="current-password"
               type="password"

@@ -6,13 +6,12 @@ import NavBar from "./NavBar";
 import NotFound from "./NotFound";
 import { useSelector } from "react-redux";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
-import RemoveUser from "./RemoveUser";
+
 import AuthRequire from "../hoc/AuthRequire";
 import Login from "./Login";
 import Signup from "./Signup";
 
 function AllRoutes() {
-  
   return (
     <BrowserRouter>
       {/* <NavBar /> */}
@@ -29,7 +28,7 @@ function AllRoutes() {
           }
         />
         <Route path="/edit/:id" element={<EditUser />} />
-        <Route path="/remove/:id" element={<RemoveUser />} />
+       
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

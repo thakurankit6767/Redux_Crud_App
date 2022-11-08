@@ -79,6 +79,7 @@ const AllUsers = () => {
   const handleClose = () => {
     setOpen(false);
   };
+  let Token = localStorage.getItem("token");
 
   useEffect(() => {
     dispatch(getTasks());
@@ -96,6 +97,14 @@ const AllUsers = () => {
       return true;
     } else {
       console.log(x, "napass");
+      return false;
+    }
+  };
+
+  const log = (y) => {
+    if (Token == true) {
+      return true;
+    } else {
       return false;
     }
   };
@@ -189,7 +198,6 @@ const AllUsers = () => {
                   <TableCell style={{ width: "30%" }}>Result</TableCell>
                   <TableCell style={{ width: "30%" }}>Score</TableCell>
                   <TableCell style={{ width: "30%" }}>Grade</TableCell>
-                  <TableCell style={{ width: "30%" }}></TableCell>
                 </THead>
               </TableHead>
               <TableBody>

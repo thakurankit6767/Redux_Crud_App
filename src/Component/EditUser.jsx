@@ -15,7 +15,6 @@ import {
 } from "@mui/material";
 
 import { useNavigate, useParams } from "react-router-dom";
-
 import { getTasks, updateTasks } from "../redux/appReducer/appAction";
 
 function reducer(state, action) {
@@ -74,7 +73,6 @@ const style = {
 export default function EditUser() {
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
-
   const [state, setter] = useReducer(reducer, initialState);
   const tasks = useSelector((state) => state.appReducer.tasks);
   const dispatch = useDispatch();
@@ -84,37 +82,21 @@ export default function EditUser() {
     navigate("/");
   };
 
-
-  // useEffect(() => {
-  //   if (tasks) {
-  //     const currentTask = tasks.find((task) => task.id === +id);
-  //     if (currentTask) {
-  //       state.studentName = currentTask.studentName;
-  //       state.classNo = currentTask.classNo;
-  //       state.result = currentTask.result;
-  //       state.score = currentTask.score;
-  //       state.grade = currentTask.grade;
-  //     }
-  //   }
-  // }, [tasks, id]);
-
-  // useEffect(() => {
-  //   if (tasks) {
-  //     const currentTask = tasks.find((task) => task.id === +id);
-  //     if (currentTask) {
-  //       state.studentName = currentTask.studentName;
-  //       state.classNo = currentTask.classNo;
-  //       state.score = currentTask.score;
-  //       state.tags = currentTask.tags;
-  //       state.grade = currentTask.grade;
-  //     }
-  //   }
-  // }, [tasks, id]);
+  useEffect(() => {
+    if (tasks) {
+      const currentTask = tasks.find((task) => task.id === +id);
+      if (currentTask) {
+        state.studentName = currentTask.studentName;
+        state.classNo = currentTask.classNo;
+        state.result = currentTask.result;
+        state.score = currentTask.score;
+        state.grade = currentTask.grade;
+      }
+    }
+  }, [tasks, id]);
 
   useEffect(() => {
-    if (tasks.length === 0) {
-      dispatch(getTasks());
-    }
+    dispatch(getTasks());
   }, []);
 
   const handleUpdate = () => {

@@ -14,7 +14,7 @@ import {
   styled,
   Typography,
 } from "@mui/material";
-import { addUser } from "../Service/api";
+
 import { useNavigate } from "react-router-dom";
 import style from "../Component/Css/addUser.css";
 

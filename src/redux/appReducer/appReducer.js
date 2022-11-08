@@ -31,74 +31,78 @@ export const appReducer = (state = initialState, { type, payload, action }) => {
       return { ...state, isLoading: false, isError: true };
     }
 
-    case ADD_TASKS_REQUEST:
+    case ADD_TASKS_REQUEST: {
       return {
         ...state,
-        loading: true,
+        isLoading: true,
+        isError: false,
       };
-    case ADD_TASKS_SUCCESS:
+    }
+    case ADD_TASKS_SUCCESS: {
+      let newArray = [...state.tasks, payload];
       return {
         ...state,
-        loading: false,
+        tasks: newArray,
+        isLoading: false,
+        isError: false,
       };
-    case ADD_TASKS_FAILURE:
+    }
+    case ADD_TASKS_FAILURE: {
       return {
         ...state,
-        loading: false,
+        isLoading: false,
+        isError: true,
       };
+    }
 
+    case UPDATE_TASKS_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case UPDATE_TASKS_SUCCESS: {
+      let newArray = [...state.tasks, payload];
+      return {
+        ...state,
+        tasks: newArray,
+        isLoading: false,
+        isError: false,
+      };
+    }
+    case UPDATE_TASKS_FAILURE: {
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    }
 
-      // case "UPDATE_TASKS_SUCCESS":
-      // const updatedUserDetail = action.payload;
-      // const updatedUser = state.tasks.map((user) => {
-      //   if (user.id === updatedUserDetail.id) {
-      //     return updatedUserDetail;
-      //   } else {
-      //     return user;
-      //   }
-      // });
-      // return { tasks: updatedUser };
+    case DELETE_TASKS_REQUEST: {
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    }
+    case DELETE_TASKS_SUCCESS: {
+      let newArray = state.tasks.filter((elem) => elem.id !== payload);
 
-    case UPDATE_TASKS_REQUEST:
       return {
         ...state,
-        loading: true,
+        tasks: newArray,
+        isLoading: false,
+        isError: false,
       };
-    case UPDATE_TASKS_SUCCESS:
+    }
+    case DELETE_TASKS_FAILURE: {
       return {
         ...state,
-        loading: false,
+        isLoading: false,
+        isError: true,
       };
-    case UPDATE_TASKS_FAILURE:
-      return {
-        ...state,
-        loading: false,
-      };
-
-    
-
-  
-
-    case DELETE_TASKS_REQUEST:
-      return {
-        ...state,
-        tasks: state.tasks.map((res) =>
-          res.id === payload ? { ...res, loading: true } : res
-        ),
-        loading: true,
-      };
-    case DELETE_TASKS_SUCCESS:
-      return {
-        ...state,
-        tasks: state.tasks.filter((res) => res.id !== action.payload),
-        loading: false,
-      };
-    case DELETE_TASKS_FAILURE:
-      return {
-        ...state,
-        error: payload,
-        loading: false,
-      };
+    }
 
     default:
       return state;
